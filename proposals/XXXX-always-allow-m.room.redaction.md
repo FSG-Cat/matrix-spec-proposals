@@ -37,8 +37,6 @@ if you need it for a private federation.
 
 This MSC concerns it self's with the needs and T&S concerns of the public federation.
 
-This MSC concerns it selfs with the needs and T&S concerns of the public federation.
-
 ## Unstable prefix
 
 While MSCXXXX is not stable implementations should use `support.feline.mscXXXX.rev.1` as the room version identifier, using [v11](https://spec.matrix.org/v1.9/rooms/v11) as a base.
