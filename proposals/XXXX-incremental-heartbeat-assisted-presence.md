@@ -111,6 +111,9 @@ To facilitate clients being able to say how long ago a given presence state tran
 to the client the timestamp of the last transition and the transition that occurred. Its up to the client
 to determine if the information is deemed useful. 
 
+A client may still choose to set presence to `unavailable` manually and if it chooses to do so may provide a 
+timestamp for `last_active_timestamp`. If not provided the server will assume a timestamp based on the same
+factors that it uses to automatically set the `unavailable` presence status and `last_active_timestamp`.
 ### Incremental presence
 
 Upon initial contact with a homeserver or after being asked for a full table you send a full copy of your
@@ -169,4 +172,5 @@ implementations that interoperate and therefore need a unstable prefix.
 
 ## Dependencies
 
-This MSC builds on MSC4042 and MSC4043 (which at the time of writing have not yet been accepted into the specification).
+This MSC builds on [MSC4042](github.com/matrix-org/matrix-spec-proposals/pull/4042) and [MSC4043](github.com/matrix-org/matrix-spec-proposals/pull/4043) 
+(which at the time of writing have not yet been accepted into the specification).
