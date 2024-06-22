@@ -2,21 +2,21 @@
 
 ## Introduction
 
-Welcome to Incremental Heartbeat Assisted Presence. This MSC is a derivative of my earlier work in
-the form of this [gist](https://gist.github.com/FSG-Cat/bd621bac3346497e2c336362d3260ddb). And builds upon it
-with my knowledge from the 2 years that has passed since i wrote that document on my iPad during downtime
-and time i was bored during class.
+This MSC is a derivative of my earlier work on the topic of presence in the form of this [gist](https://gist.github.com/FSG-Cat/bd621bac3346497e2c336362d3260ddb). 
+And builds upon it with my knowledge from the 2 years that has passed since i wrote that document 
+on my iPad during downtime and time i was bored during class. 
+
+This MSC is a redesign of the presence system to enable it to scale better. And make its failure
+modes more safe. This MSC is inspired by the incremental updates and state tracking that EIGRP uses.
 
 ### Background 
 
-Presence is known as one of those nice to haves that is a privilege of us homeserver admins who have
-the resources to burn on it. All the homeserver software's recognise this as a very taxing feature if scaled
-up to matrix.org scale. Also incidents like the Sliding Sync proxy going nuts or the presence flooding
-i triggered accidentally shows the fragility and bad design or code or both involved in presence.
+[Presence](https://spec.matrix.org/v1.11/client-server-api/#presence) is only enabled by homeserver admins who have the resources to burn on it. 
+All homeserver implementations recognise presence as a very inefficient feature, and also a feature that does not scale. 
+In addition, the current presence system is fragile: there have been presence bugs in sliding sync proxy, and presence flooding 
+can be accidentally triggered by clients.
 
 ### High level overview of how to fix this.
-
-So as the background establishes presence as it stands today is flawed. So how do we fix it?
 
 This MSC proposes fixing presence by taking a page out of the routing protocol world. The precursor to
 this MSC in the form of the gist from earlier exists due to my studies having us learn the ins and outs of
@@ -24,13 +24,14 @@ the EIGRP and OSPF routing protocols. It turns out that these routing protocols 
 They need to distribute Alive or Dead status to all the nodes so your routing tables are up to date.
 
 And what is presence if not Alive or Dead status information. Now OSPF takes the problematic but works at limited
-enough scale approach of sending the whole thing every time anything changes. Its a known flaw but it works. 
-Now EIGRP uses incremental updates and that's exactly what i propose we copy. This proposal therefore proposes
-that we change presence to be Changes only and move expiry into a separate subsystem of presence.
+enough scale approach of sending a complete copy of state every time anything changes. Its a known flaw but it works. 
+Now EIGRP uses incremental updates and that's exactly what i propose we copy. This MSC therefore proposes
+that we change presence to be a incremental system that only communicates state changes and move expiry into a 
+separate subsystem of presence.
 
-To facilitate changes only presence you need to keep track of if the other party is alive or dead. I mean 
-if matrix.org is mid database upgrade that takes 6 hours you wouldn't want her users to be online reported for the duration.
-(Yes matrix.org had a db upgrade that took like 6 hours. Its fine my point was just an example of a long single day maintenance window.)
+To facilitate incremental presence we only need to keep track of whether a given party is alive or dead. For example, 
+if matrix.org is upgrading their database over a duration of six hours, we wouldn't want matrix.org's users to be 
+marked as online for the entire maintenance duration.
 The proposal section goes into detail around how this alive tracking works but in the high level overview its 
 also important to include that servers can tell other servers that they are going offline/disabling presence.
 
@@ -57,9 +58,9 @@ legacy APIs for presence.
 
 ## Proposal
 
-So while the high level overview has given a pretty clear picture of this proposal its not a complete
+So while the high level overview has given a pretty clear picture of this MSC its not a complete
 picture. One example of a system that lacked elaboration was the Heartbeat system that gives its name
-to this proposal.
+to this MSC.
 
 ### Heartbeat System
 
@@ -75,7 +76,7 @@ If the heartbeat goes through and the remote server responds by acknowledging th
 reset their heartbeat timers for each other and you rinse and repeat this process whenever you have not heard
 from each other in enough time.
 
-FIXME: The exact shape of the API used for heartbeats is for a Revision 2 of this proposal as its currently a 
+FIXME: The exact shape of the API used for heartbeats is for a Revision 2 of this MSC as its currently a 
 draft.
 
 If heartbeat fails you use exponential backoff(Consider ME: Alternative backoff algorithms? ) 
@@ -98,20 +99,23 @@ as presence is concerned.
 
 ### Client Server API Level
 
-Under this proposal presence adopts a succession order where only the state highest in the succession
+Under this MSC presence adopts a succession order where only the state highest in the succession
 order is used for your account wide presence state. Under the current presence states and disabled from 
 [MSC4042](https://github.com/matrix-org/matrix-spec-proposals/pull/4042) the order is `online` > `unavailable` > `offline` > `disabled`.
 
 The `unavailable` state is either set by the client using a last interaction timestamp or assumed by the server
 after a sufficient period of inactivity assuming that the user has this state enabled.
 
-Note to Cat: What goes here in-between this and the S2S Section? Figure this out before posting Rev 1 as a MSC on the repo.
+The `last_active_ago` field of presence is removed on the S2S API level and replaced with `last_active_timestamp`.
+To facilitate clients being able to say how long ago a given presence state transition happened the server will report
+to the client the timestamp of the last transition and the transition that occurred. Its up to the client
+to determine if the information is deemed useful. 
 
 ### Incremental presence
 
 Upon initial contact with a homeserver or after being asked for a full table you send a full copy of your
 presence table that the remote homeserver in question is interested in. This presence table is considered
-valid under the rules in the heartbeat system defined earlier in this proposal or until a change is made to
+valid under the rules in the heartbeat system defined earlier in this MSC or until a change is made to
 a entry. When a user changes their presence state that change is updated on the server side and put in a bucket.
 Once this bucket is old enough or full enough you send that whole batch of presence updates to all remote servers
 that are interested. The size of this bucket and maximum delay is a implementation detail as long as the resulting
@@ -123,9 +127,15 @@ expiry.
 
 FIXME: Consider if a recommendation to drop table on restart is a good idea or not?
 
-Status message changes are also considered changes ofc under this proposal as status messages are part
-of the presence EDUs.
+Status message changes are also considered changes ofc as status messages are part of the presence EDUs.
 
+The `last_active_ago` field in the presence EDU is removed and replaced by a `last_active_timestamp` field.
+This `last_active_timestamp` is a standard unix milliseconds timestamp of when the user was last active if their current
+presence status is `unavailable`. If their status is any other status this field is to be ignored if present as its a bug. 
+
+The `currently_active` field is also removed as its purpose of suppressing the `last_active_ago` field is removed since
+that field is also removed. In addition since the last active ago behaviour is only reported once the users state is flipped
+to away this is no longer in need of being suppressed as it wont cause presence spam.
 
 ## Potential issues
 
@@ -148,13 +158,13 @@ alternatives that need to be addressed here.
 
 ## Security considerations
 
-The author isn't sure there are too many new security considerations in this proposal but this proposal
-aims to fix the Flip Flop flaw in presence together with its partner in [MSC4043](github.com/matrix-org/matrix-spec-proposals/pull/4043)
+The author isn't sure there are too many new security considerations in this MSC but this MSC does 
+aim to fix the Flip Flop flaw in presence together with its partner in [MSC4043](github.com/matrix-org/matrix-spec-proposals/pull/4043)
 
 ## Unstable prefix
 
-This proposal is too early in the process currently to even entertain a unstable implementation. The APIs are all missing and the
-data to send over them is also missing. Please help flesh this proposal out before you even consider
+This MSC is too early in the process currently to even entertain a unstable implementation. The APIs are all missing and the
+data to send over them is also missing. Please help flesh this MSC out before you even consider
 implementations that interoperate and therefore need a unstable prefix.
 
 ## Dependencies
