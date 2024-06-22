@@ -1,5 +1,19 @@
 # MSC0000: Incremental Heartbeat Assisted Presence
 
+- [MSC0000: Incremental Heartbeat Assisted Presence](#msc0000-incremental-heartbeat-assisted-presence)
+  - [Introduction](#introduction)
+    - [Background](#background)
+    - [High level overview of how to fix this.](#high-level-overview-of-how-to-fix-this)
+  - [Proposal](#proposal)
+    - [Heartbeat System](#heartbeat-system)
+    - [Client Server API Level](#client-server-api-level)
+    - [Incremental presence](#incremental-presence)
+  - [Potential issues](#potential-issues)
+  - [Alternatives](#alternatives)
+  - [Security considerations](#security-considerations)
+  - [Unstable prefix](#unstable-prefix)
+  - [Dependencies](#dependencies)
+
 ## Introduction
 
 This MSC is a redesign of the presence system to enable it to scale better. And make its failure
@@ -8,6 +22,22 @@ modes more safe. This MSC is inspired by the incremental updates and state track
 This MSC is a derivative of my earlier work on the topic of presence in the form of this [gist](https://gist.github.com/FSG-Cat/bd621bac3346497e2c336362d3260ddb). 
 And builds upon it with my knowledge from the 2 years that has passed since i wrote that document 
 on my iPad during downtime and time i was bored during class. 
+
+Due to this MSCs considerable length it includes not only a Table of Contents but an explanation for the sections that
+are bespoke subheadings.
+
+The Background section is hopefully somewhat self explanatory as it goes into some background on the
+problem space. 
+
+High level overview goes into a higher level overview of this MSC and goes into background. This exists
+for the dual purposes of helping make the MSC easier to write as it allowed a outline to be created
+and it also hopes to help make the proposal accessible. As the high level overview explains the system without
+getting too concerned with the minute details found in the proposal section.
+
+Under Proposal you find the Heartbeat System, CS API Level and Incremental presence subheadings. 
+These subheadings explain the various aspects of this MSC in detail. Heartbeat concerns it self with
+the heartbeat system. CS API concerns it self with Client server API side of things as is hopefully self explanatory.
+Incremental Presence explains the details of how Incremental presence works that aren't explained in the heartbeat section.
 
 ### Background 
 
