@@ -2,12 +2,12 @@
 
 ## Introduction
 
+This MSC is a redesign of the presence system to enable it to scale better. And make its failure
+modes more safe. This MSC is inspired by the incremental updates and state tracking that EIGRP uses.
+
 This MSC is a derivative of my earlier work on the topic of presence in the form of this [gist](https://gist.github.com/FSG-Cat/bd621bac3346497e2c336362d3260ddb). 
 And builds upon it with my knowledge from the 2 years that has passed since i wrote that document 
 on my iPad during downtime and time i was bored during class. 
-
-This MSC is a redesign of the presence system to enable it to scale better. And make its failure
-modes more safe. This MSC is inspired by the incremental updates and state tracking that EIGRP uses.
 
 ### Background 
 
