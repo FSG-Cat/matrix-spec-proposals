@@ -43,11 +43,11 @@ this MSC in the form of the gist from earlier exists due to my studies having us
 the EIGRP and OSPF routing protocols. It turns out that these routing protocols have a similar problem to us.
 They need to distribute Alive or Dead status to all the nodes so your routing tables are up to date.
 
-And what is presence if not Alive or Dead status information. Now OSPF takes the problematic but works at limited
-enough scale approach of sending a complete copy of state every time anything changes. Its a known flaw but it works.
+And what is presence if not Alive or Dead status information? Now OSPF takes the problematic-but-works-at-limited
+enough-scale approach of sending a complete copy of state every time anything changes. Its a known flaw but it works.
 Now EIGRP uses incremental updates and that's exactly what i propose we copy. This MSC therefore proposes
 that we change presence to be a incremental system that only communicates state changes and move expiry into a
-separate subsystem of presence.
+separate subsystem of presence, we have called the heartbeat system.
 
 To facilitate incremental presence we only need to keep track of whether a given party is alive or dead. For example,
 if matrix.org is upgrading their database over a duration of six hours, we wouldn't want matrix.org's users to be
