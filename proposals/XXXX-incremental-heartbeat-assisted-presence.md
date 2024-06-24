@@ -25,9 +25,6 @@ on my iPad during downtime and time i was bored during class.
 
 Due to this MSCs considerable length it includes not only a Table of Contents but an explanation of the sections.
 
-The Background section is hopefully somewhat self explanatory as it goes into some background on the
-problem space. 
-
 High level overview goes into a higher level overview of this MSC and goes into background. This exists
 for the dual purposes of helping make the MSC easier to write as it allowed a outline to be created
 and it also hopes to help make the proposal accessible. As the high level overview explains the system without
