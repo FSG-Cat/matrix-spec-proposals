@@ -23,8 +23,7 @@ This MSC is a derivative of my earlier work on the topic of presence in the form
 And builds upon it with my knowledge from the 2 years that has passed since i wrote that document 
 on my iPad during downtime and time i was bored during class. 
 
-Due to this MSCs considerable length it includes not only a Table of Contents but an explanation for the sections that
-are bespoke subheadings.
+Due to this MSCs considerable length it includes not only a Table of Contents but an explanation of the sections.
 
 The Background section is hopefully somewhat self explanatory as it goes into some background on the
 problem space. 
@@ -33,11 +32,6 @@ High level overview goes into a higher level overview of this MSC and goes into 
 for the dual purposes of helping make the MSC easier to write as it allowed a outline to be created
 and it also hopes to help make the proposal accessible. As the high level overview explains the system without
 getting too concerned with the minute details found in the proposal section.
-
-Under Proposal you find the Heartbeat System, CS API Level and Incremental presence subheadings. 
-These subheadings explain the various aspects of this MSC in detail. Heartbeat concerns it self with
-the heartbeat system. CS API concerns it self with Client server API side of things as is hopefully self explanatory.
-Incremental Presence explains the details of how Incremental presence works that aren't explained in the heartbeat section.
 
 ### Background 
 
@@ -88,9 +82,17 @@ legacy APIs for presence.
 
 ## Proposal
 
-So while the high level overview has given a pretty clear picture of this MSC its not a complete
-picture. One example of a system that lacked elaboration was the Heartbeat system that gives its name
-to this MSC.
+  - [Proposal](#proposal)
+    - [Heartbeat System](#heartbeat-system)
+    - [Client Server API Level](#client-server-api-level)
+    - [Incremental presence](#incremental-presence)
+
+There are three components to the proposal:
+  - The [Heartbeat system](#heartbeat-system) to determine whether a server is still online and therefore if 
+    incremental presence information is still accurate. 
+  - [Incremental presence](#incremental-presence) making servers only track changes to presence state and 
+    move expiry to a separate subsystem that being the heartbeat system.
+  - The [CS API](#client-server) changes required to implement incremental presence
 
 ### Heartbeat System
 
