@@ -55,8 +55,8 @@ marked as online for the entire maintenance duration.
 The proposal section goes into detail around how this alive tracking works but in the high level overview its
 also important to include that servers can tell other servers that they are going offline/disabling presence.
 
-So how does changes only and knowing alive or dead status for homeservers help? Well simple if one takes a look at
-EDU charts. Unless your reporting as away for a 8-16 sleep cycle assuming your desktop follows that one should report as
+So how does changes-only and knowing-alive-or-dead status for homeservers help? Well simple, if one takes a look at
+EDU charts. Unless you're reporting yourself as away for a 8-16 sleep cycle, assuming your desktop follows that, one should report as
 online at the start of the 16 hours awake cycle and offline at start of the 8 hour sleep cycle. That's 2 EDUs for the whole day.
 
 Reality? You see a LOT more than 2 EDUs for the whole day and we have non essential fields like last active that complicate matters.
@@ -64,7 +64,7 @@ If we could cut down presence volumes to these extremely low volumes to make pre
 than PDU volumes, i am convinced we could reach a point where matrix.org and the other servers that disabled presence for performance
 concerns can flip it back on.
 
-The last big change is to introduce a totem pole mechanism for presence where sates have ranks.
+The last big change is to introduce a totem pole mechanism for presence, whereby presence sates are ranked.
 This means that for example if your laptop is online and reports presence as the `online` state.
 And then you also open your desktop where you report as `offline` explicitly your desktop gets ignored.
 
