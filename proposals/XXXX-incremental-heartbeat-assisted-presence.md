@@ -25,11 +25,6 @@ on my iPad during downtime and time i was bored during class.
 
 Due to this MSCs considerable length it includes not only a Table of Contents but an explanation of the sections.
 
-High level overview goes into a higher level overview of this MSC and goes into background. This exists
-for the dual purposes of helping make the MSC easier to write as it allowed a outline to be created
-and it also hopes to help make the proposal accessible. As the high level overview explains the system without
-getting too concerned with the minute details found in the proposal section.
-
 ### Background
 
 [Presence](https://spec.matrix.org/v1.11/client-server-api/#presence) is only enabled by homeserver admins who have the resources to burn on it.
@@ -38,6 +33,10 @@ In addition, the current presence system is fragile: there have been presence bu
 can be accidentally triggered by clients.
 
 ### High level overview of how to fix this.
+
+The High level overview goes into a higher level overview of this MSC and goes into background.
+The overview is provided for the purpose of making the MSC easier to write, and to make the proposal easier to understand.
+As the high level overview explains the system without getting too concerned with the minute details found in the proposal section.
 
 This MSC proposes fixing presence by taking a page out of the routing protocol world. The precursor to
 this MSC in the form of the gist from earlier exists due to my studies having us learn the ins and outs of
