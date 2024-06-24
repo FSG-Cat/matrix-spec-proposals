@@ -43,8 +43,8 @@ this MSC in the form of the gist from earlier exists due to my studies having us
 the EIGRP and OSPF routing protocols. It turns out that these routing protocols have a similar problem to us.
 They need to distribute Alive or Dead status to all the nodes so your routing tables are up to date.
 
-And what is presence if not Alive or Dead status information? Now OSPF takes the problematic-but-works-at-limited
-enough-scale approach of sending a complete copy of state every time anything changes. Its a known flaw but it works.
+And what is presence if not Alive or Dead status information? Now OSPF takes the problematic, but working at limited
+enough scale, approach of sending a complete copy of state every time anything changes. Its a known flaw but it works.
 Now EIGRP uses incremental updates and that's exactly what i propose we copy. This MSC therefore proposes
 that we change presence to be a incremental system that only communicates state changes and move expiry into a
 separate subsystem of presence, we have called the heartbeat system.
@@ -55,7 +55,7 @@ marked as online for the entire maintenance duration.
 The proposal section goes into detail around how this alive tracking works but in the high level overview its
 also important to include that servers can tell other servers that they are going offline/disabling presence.
 
-So how does changes-only and knowing-alive-or-dead status for homeservers help? Well simple, if one takes a look at
+So how does a system based on changes in presence and the dead-or-alive status for homeservers help? Well simple, if one takes a look at
 EDU charts. Unless you're reporting yourself as away for a 8-16 sleep cycle, assuming your desktop follows that, one should report as
 online at the start of the 16 hours awake cycle and offline at start of the 8 hour sleep cycle. That's 2 EDUs for the whole day.
 
