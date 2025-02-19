@@ -9,11 +9,11 @@ This MSC proposes to make it so you can not refer to non public documents as ref
 ## Proposal
 
 Under this proposal the MSC process is changed to only allow invoking documents that are public and have been approved
-via the MSC process when saying this isn't matrix. So if something violates for example the matrix security model you refer
-to the matrix security model document.
+via the MSC process when saying this isn't matrix. So if something violates for example
+the matrix security model you refer to the matrix security model document.
 
-You are still allowed to nix MSCs based on the opinion that something is just a plain old bad idea but this cant be used as an
-appeal to authority as your not able to appeal to the established policies.
+You are still allowed to nix MSCs based on the opinion that something is just a plain old bad idea
+but this cant be used as an appeal to authority as your not able to appeal to the established policies.
 
 We propose that feedback, review, and proposals MUST NOT refer to
 documents, ideas, processes that are not publicly available for
@@ -50,9 +50,10 @@ SCT's favour.
 
 ## Potential issues
 
-This new process is in theory more complicated since you have to know what document your going to appeal to when trying to nix
-something on the basis of violating a policy. The problem with this argument is that you should know what document your
-invoking when nixing something based on a policy.
+This new process is in theory more complicated since you have to know what
+document your going to appeal to when trying to nix something on the basis of violating a policy.
+The problem with this argument is that you should know what document
+your invoking when nixing something based on a policy.
 
 ## Alternatives
 
