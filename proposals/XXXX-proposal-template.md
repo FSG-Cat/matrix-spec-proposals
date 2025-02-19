@@ -1,10 +1,12 @@
 # MSC0000: Policy Documents
 
-In the spec process sometimes MSCs try to change things in a way that disagrees with policies on what matrix even is.
-
-Examples of documents that currently define these policies are the spec it self and the principles of matrix therein.
-
-This MSC proposes to make it so you can not refer to non public documents as references to these policies.
+MSCs sometimes propose changes, that conflict with the goals behind Matrix. Some of these goals are
+spelled out in the specification itself, some of them in external documents like the
+[foundation's Matrix Manifesto](https://matrix.org/foundation/about/).
+However sometimes also other documents are cited in discussions during MSC review.
+This MSC proposes that documents, that are used as an argument during MSC review,
+should be accessible to anyone involved in the review process. As the MSC process is open to everyone,
+this effectively means such documents should be publicly available.
 
 ## Proposal
 
