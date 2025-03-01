@@ -1,43 +1,43 @@
 # MSC0000: Policy Documents
 
-MSCs sometimes propose changes, that conflict with the goals behind Matrix. Some of these goals are
-spelled out in the specification itself, some of them in external documents like the
-[foundation's Matrix Manifesto](https://matrix.org/foundation/about/).
-However sometimes also other documents are cited in discussions during MSC review.
-This MSC proposes that documents, that are used as an argument during MSC review,
-should be accessible to anyone involved in the review process. As the MSC process is open to everyone,
-this effectively means such documents should be publicly available.
+Currently, the SCT can cite inaccessible documents in review,
+feedback, and proposals themselves. This is done for a variety of
+reasons, ranging from security to policy development.
+
+When an inaccessible document is cited, it provides the SCT an
+unfalsifiable argumentation and inaccessible authority that stops
+feedback, or defences of proposals, reviews, and proposals themselves
+from receiving fair evaluation and scrutiny. This mechanism provides
+an unjust asymmetry between the SCT and other contributors because it
+allows members of the SCT to use inaccessible authorities to dismiss
+or raise concerns without scrutiny, and without any means of
+verification.
+
+We propose that documents that are cited either in a proposal
+or during any part of MSC review MUST be as accessible as the MSC
+itself. As the MSC process is open to everyone, this effectively means
+documents will be publicly available.
+
+We then provide a pathway for evaluation of security, safety, or other
+sensitive documents by a Matrix governing board working group.
 
 ## Proposal
-
-Under this proposal the MSC process is changed to only allow invoking documents that are public and have been approved
-via the MSC process when saying this isn't matrix. So if something violates for example
-the matrix security model you refer to the matrix security model document.
-
-You are still allowed to nix MSCs based on the opinion that something is just a plain old bad idea
-but this cant be used as an appeal to authority as your not able to appeal to the established policies.
 
 We propose that feedback, review, and proposals MUST NOT refer to
 documents, ideas, processes that are not publicly available for
 review and scrutiny except in extenuating circumstances defined below
 (for example, a security issue).
 
-This is to avoid situations where reviewers refer to an inaccessible
-authority in order to provide an unfalsifiable argumentation in their
-review. Because this stops feedback, or defences of proposals,
-reviews, and proposals themselves from receiving fair evaluation and
-scrutiny. And at the moment there is an unjust asymmetry in the review
-process because of the ability for the SCT to use inaccessible
-authorities to dismiss or raise concerns without scrutiny, and without
-any means of verification.
-
 ### Providing a process for appealing to inaccessible authority
 
-The SCT should still have the discretion to appeal to an inaccessible
-authority, however they MUST first seek approval from a to be
-established governing board committee or working group so that the
-claims can be verified or scrutinised BEFORE they are used in a
-review.
+The SCT will still have the discretion to appeal to an inaccessible
+authority, however they MUST first seek approval from the
+"inaccessible authority evaluation working group" so that the claims
+can be scrutinised BEFORE they are used in a review. The document in
+question MUST be made available to the working group for scruitiny so
+that the claims are verified. If the document is not made accessible
+to the working group, and the information is presented in an
+unverifiable way, then the working group MUST reject the appeal.
 
 This process does not exist to determine whether an appeal to
 inaccessible authority is justified, it is to obtain access to any
