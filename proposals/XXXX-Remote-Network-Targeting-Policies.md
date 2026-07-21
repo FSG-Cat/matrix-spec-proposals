@@ -1,35 +1,34 @@
 # MSCXXXX: Remote Network Targeting Policies
 
-This MSC introduces the `remote_network` and `remote_id` field as optional keys for membership events.
-This has the purpose to allow policy application against bridged users without reliance on glob bans while still
-allowing the ban to be shared across bridges.
+This MSC introduces the `remote_network` and `remote_id` fields as optional keys for membership events.
+This allows policies to target bridged users without relying on globs, while still allowing those
+policies to be shared across bridges.
 
-The exact shape of the `remote_network` and `remote_id` are left relatively loose by this MSC because
-its meant to account for all bridges. Past, current and future bridges should all be able to use the same
-format. So instead of burdening the spec with having to keep a bridge directory up to date we dont.
+The exact shape of `remote_network` and `remote_id` is intentionally left loose in order to accommodate
+past, current, and future bridges. This avoids requiring the spec to maintain a bridge directory or
+otherwise prescribe a single canonical layout for all networks.
 
-This is achieved by having the policies just blindly match `remote_network` and `remote_id` that is supplied
-by the bridge. This works on the simple logic that as long as you dont poison the data that we use
-to write policies blind matching is perfectly adequate.
+This is achieved by having policies match the `remote_network` and `remote_id` values supplied by the
+bridge. This works on the assumption that, provided the bridge supplies trustworthy data, exact matching
+is sufficient for policy application.
 
-The policy half of this proposal will be achieved via extending the current `m.policy.rule.user` policy
-with `remote_network` and `remote_id` fields just like membership events.
+The policy side of this proposal is achieved by extending the current `m.policy.rule.user` policy with
+`remote_network` and `remote_id` fields, mirroring the membership event shape that is being proposed.
 
 ## Proposal
 
 `remote_network` takes the form of a string that identifies the remote side of the bridge. This proposal
-does not specify any strict rules for how remote networks should be identified except that the matrix
-namespace rules are followed.
+does not specify strict rules for how remote networks should be identified, beyond following the Matrix
+namespace rules.
 
-A example shape for how you identify a centralised network like telegram is `org.telegram`. This follows
-the standard matrix naming conventions. This proposal is intentionally leaving this problem loosely defined
-as to let bridges sort this out as its only purpose is to identify what namespace a `remote_id` belongs
-inside of.
+An example shape for identifying a centralized network such as Telegram is `org.telegram`. This follows
+the standard Matrix naming conventions. The proposal intentionally leaves this loosely defined so that
+bridges can choose a namespace scheme appropriate to the network they bridge.
 
-`remote_id` is defined as the remote networks immutable identifier for that user. Examples include
-Discord and their snowflakes and all the equivalents out there. The example for matrix users would be
-the MXID. The purpose of providing the `remote_id` is to give policies a immutable identifier from the
-remote network to latch onto.
+`remote_id` is defined as the remote network's immutable identifier for that user. Examples include
+Discord snowflakes and equivalent identifiers from other networks. For Matrix users, the equivalent would
+be the MXID. The purpose of `remote_id` is to give policies an immutable identifier to target on the
+remote network.
 
 A `m.policy.rule.user` policy that contains a ban targeting one of these remote users can look like this.
 
@@ -51,47 +50,45 @@ A `m.policy.rule.user` policy that contains a ban targeting one of these remote 
 }
 ```
 
-This example event targets for bridges not compatible with this proposal the user in the entity field.
+For bridges that do not implement this proposal, the example event targets the user in the `entity` field.
 
-_Note: The Example Snowflake picked is not actually a snowflake but the unix timestamp of the discord epoch
-its just filler after all._
+_Note: The example snowflake is actually the Unix timestamp of the Discord epoch and is used here only as a
+placeholder._
 
-But for bridges compatible with this proposal we are instead targeting any user whos membership event contains
+For bridges compatible with this proposal, the policy instead targets any user whose membership event contains
 a matching set of `remote_network` and `remote_id` fields.
 
-When writing a policy that targets a user with `remote_network` and `remote_id` set you have to ensure you trust
-said data to be accurate as to not ban innocent users. Its left as an implementation detail how exactly a
-user is determined to belong to a trusted namespace.
+When writing a policy that targets a user with `remote_network` and `remote_id` set, implementations must
+ensure that the supplied data is trustworthy to avoid banning innocent users. How a user is determined to
+belong to a trusted namespace is left as an implementation detail.
 
 In drafting this proposal a recommendation around bridge metadata tracked via state event was mentioned and
-future work in this area is welcome to explore that avenue.
+future work in this area is welcome to explore that avenue as a way to establish trust in a given namespace.
 
 ## Potential issues
 
-This proposal does open the door to disagreement between bridges about how to identify a remote network
-but that problem is left as a implementation detail on purpose.
+This proposal does open the door to disagreement between bridges about how to identify a remote network,
+but that issue is intentionally left as an implementation detail.
 
-This proposal does also not work well with networks that completely lack the idea of a true immutable identifier
-that moves with your account in the case of networks that allow for account migration. This problem is
-accepted as we cant address it and the vast majority of popular remote networks for matrix bridges
-do have immutable identifiers.
+This proposal also does not work well with networks that do not have a true immutable identifier, including
+networks that allow account migration. That limitation is accepted as its not a problem for matrix to solve,
+in this MSC and most commonly bridged networks do provide immutable identifiers.
 
 ## Alternatives
 
-This metadata could be tracked via extensible profile like in [MSC4503](https://github.com/matrix-org/matrix-spec-proposals/pull/4503)
-but this was dismissed in initial design as totally infeasible to the point of not being explored. The basis
-for this instant rejection as a alternative worth consideration is that this metadata needs to be accessible
-at 0 extra cost for anyone doing policy application or else its useless.
+This metadata could be tracked via extensible profile data as in [MSC4503](https://github.com/matrix-org/matrix-spec-proposals/pull/4503),
+but that approach was set aside during the initial design because it would add cost to policy application.
+For this metadata to be useful, it needs to be available without additional lookup overhead.
 
 ## Security considerations
 
-The primary security flaw this MSC introduces is the fact we have to trust the bridges that provide
-the metadata and that originate users.
+The primary security consideration introduced by this MSC is that implementations must trust the bridges
+that provide the metadata and originate users.
 
-Anyone can set these fields to whatever value they find entertaining or useful but as long as whoever
-writes policies doesn't trust them the harm is limited. This proposal is intended to be used together
-with approved bridges where the bridge is trusted to not lie. In the case of a lying bridge there can be damage
-due to bad policies being issued. This is an accepted risk for the provided benefits.
+Anyone can set these fields to arbitrary values, but as long as policy authors do not trust unverified data,
+the harm is limited. This proposal is intended to be used with approved bridges that are trusted to supply
+correct metadata. If a bridge provides incorrect values, incorrect policies may be written or applied depending on if
+the bridge in question was trusted. That risk is accepted in return for the benefits of the approach.
 
 ## Unstable prefix
 
