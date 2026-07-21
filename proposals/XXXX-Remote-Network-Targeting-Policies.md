@@ -32,7 +32,7 @@ remote network.
 
 A `m.policy.rule.user` policy that contains a ban targeting one of these remote users can look like this.
 
-```
+```json
 {
   "content": {
     "entity": "@example_bridge_example_1420070400000:example.com",
